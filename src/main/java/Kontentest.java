@@ -42,11 +42,18 @@ Kunde du = new Kunde();
         b.sparbuchErstellen(du);
 
         b.geldEinzahlen(1000000001,10000);
-		b.geldEinzahlen(1000000002,10000);
+		b.geldEinzahlen(1000000002,10);
+		b.geldEinzahlen(1000000003,10);
+		b.geldEinzahlen(1000000004,10);
+		b.geldEinzahlen(1000000005,10000);
+		b.geldEinzahlen(1000000006,10000);
+
+		b.kontoLoeschen(1000000003L);
+		b.kontoLoeschen(1000000005L);
+		b.kontoLoeschen(1000000006L);
 
 
-
-        System.out.println(b.getAlleKonten());
+		System.out.println(b.getAlleKonten());
         try {
             b.geldUeberweisen(1000000001,1000000002,7777,"Test");
         } catch(GesperrtException e) {
@@ -61,7 +68,10 @@ Kunde du = new Kunde();
         b.kontoLoeschen(1000000003L);
 
 
-        System.out.println(b.getKundengeburtstage());
+		System.out.println(b.getKundengeburtstage());
+
+
+    //    System.out.println(b.getKontonummernLuecken());
 
 
 	}

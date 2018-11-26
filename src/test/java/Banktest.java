@@ -104,8 +104,6 @@ public class Banktest {
         bank.giroKontoErstellen(k2);
         bank.geldAbheben(1000000001L,50);
         bank.pleitegeierSperren();
-
-
     }
 
 }

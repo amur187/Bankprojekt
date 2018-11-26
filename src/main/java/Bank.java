@@ -8,9 +8,10 @@ import java.util.stream.Collectors;
  * @author dennis
  */
 public class Bank {
+    private final long STARTNUMMER = 1000000000L;
+
     private long bankleitzahl;
-    private long hoechsteNummer = 1000000000L;
-    private long maxKontoNr = 2000000000L;
+    private long hoechsteNummer = STARTNUMMER;
     private HashMap<Long, Konto> bankKonten = new HashMap();
 
     /**
@@ -39,9 +40,11 @@ public class Bank {
      * @return hoechsteNummer
      */
     public long giroKontoErstellen(Kunde inhaber) {
-        Girokonto g = new Girokonto(inhaber, ++hoechsteNummer, 0);
-        bankKonten.put(hoechsteNummer, g);
-        return hoechsteNummer;
+        long kontonummer = hoechsteNummer;
+        Girokonto g = new Girokonto(inhaber, kontonummer , 0);
+        bankKonten.put(kontonummer, g);
+        hoechsteNummer++;
+        return kontonummer;
     }
 
     /**
@@ -51,9 +54,11 @@ public class Bank {
      * @return hoechsteNummer
      */
     public long sparbuchErstellen(Kunde inhaber) {
-        Sparbuch s = new Sparbuch(inhaber, ++hoechsteNummer);
-        bankKonten.put(hoechsteNummer, s);
-        return hoechsteNummer;
+        long kontonummer = hoechsteNummer;
+        Sparbuch s = new Sparbuch(inhaber, kontonummer);
+        bankKonten.put(kontonummer, s);
+        hoechsteNummer++;
+        return kontonummer;
     }
 
     /**
@@ -186,17 +191,18 @@ public class Bank {
                 k.sperren();
             }
         });
-
     }
 
     /**
-     * Gibt eine Liste mit allen Konten zurueck welche ein Guthaben von mindestens minimum haben
+     * Gibt eine Liste mit allen Kunden zurueck welche ein Guthaben von mindestens minimum haben
      *
      * @param minimum
      * @return
      */
-    List<Konto> getKundenMitVollemKonto(double minimum) {
-          return bankKonten.values().stream().filter(konto -> konto.getKontostand() >= minimum).collect(Collectors.toList());
+    List<Kunde> getKundenMitVollemKonto(double minimum) {
+        ArrayList<Kunde> kunden = new ArrayList<>();
+        bankKonten.values().stream().forEach(konto -> { if(konto.getKontostand() >= minimum){kunden.add(konto.getInhaber());}});
+        return kunden.stream().distinct().collect(Collectors.toList());
     }
 
     /**
@@ -208,10 +214,7 @@ public class Bank {
         StringBuilder rueckgabe = new StringBuilder();
         ArrayList<String> geburtstage = new ArrayList<String>();
 
-        for(long key:bankKonten.keySet() ) {
-          geburtstage.add(bankKonten.get(key).getInhaber().getName() + " " +bankKonten.get(key).getInhaber().getGeburtstag() + System.lineSeparator());
-        }
-
+        bankKonten.values().stream().forEach(konto -> geburtstage.add(konto.getInhaber().getName() + " " + konto.getInhaber().getGeburtstag() + System.lineSeparator()));
         geburtstage.stream().distinct().forEach(rueckgabe::append);
 
         return rueckgabe.toString();
@@ -223,8 +226,15 @@ public class Bank {
      * @return
      */
     List<Long> getKontonummernLuecken() {
-        return null;
+        /**
+         * Leider fällt uns hier nichts anderes ein als die Gesamten Kontonummern durchzuiterieren.
+         */
+        List<Long> rueckgabe = new ArrayList<>();
+        for(long i = STARTNUMMER; i < hoechsteNummer;i++) {
+            if(bankKonten.get(i) == null) {
+                rueckgabe.add(i);
+            }
+        }
+        return rueckgabe;
     }
-
-
 }
