@@ -19,6 +19,7 @@ public abstract class Nullstellensuche implements Funktion {
 
     public static double sucheNullstelle(double a, double b, Funktion f) throws KeineNullstelleException {
         double m = (a + b) / 2.0;
+        if(f.berechnen(a) * f.berechnen(b) >= 0) throw new KeineNullstelleException();
 
         if( Math.abs( f.berechnen(m) ) < GENAUIGKEIT )
             return m;

@@ -1,7 +1,9 @@
+import java.io.Serializable;
+
 /**
  * stellt ein allgemeines Konto dar
  */
-public abstract class Konto implements Comparable<Konto> {
+public abstract class Konto implements Comparable<Konto>, Serializable {
 	/**
 	 * der Kontoinhaber
 	 */

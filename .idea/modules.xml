@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Chatprogramm/Chatprogramm.iml" filepath="$PROJECT_DIR$/Chatprogramm/Chatprogramm.iml" />
       <module fileurl="file://$PROJECT_DIR$/Nullstellensuche/Nullstellensuche.iml" filepath="$PROJECT_DIR$/Nullstellensuche/Nullstellensuche.iml" />
+      <module fileurl="file://$PROJECT_DIR$/StringFormat/StringFormat.iml" filepath="$PROJECT_DIR$/StringFormat/StringFormat.iml" />
       <module fileurl="file://$PROJECT_DIR$/Uebung6 - Ballspiel/Uebung6 - Ballspiel.iml" filepath="$PROJECT_DIR$/Uebung6 - Ballspiel/Uebung6 - Ballspiel.iml" />
     </modules>
   </component>

@@ -30,14 +30,14 @@ public class Banktest {
 
     @Test
     public void testBankGirokontoErstellenEchterKunde() {
-        assertEquals(1000000001L, bank.giroKontoErstellen(k1));
+        assertEquals(1000000000L, bank.giroKontoErstellen(k1));
     }
 
 
     @Test
     public void testBankSparbuchErstellenEchterKunde() {
         bank.sparbuchErstellen(k1);
-        assertEquals(1000000002L, bank.sparbuchErstellen(k1));
+        assertEquals(1000000001L, bank.sparbuchErstellen(k1));
     }
 
     @Test
@@ -53,30 +53,30 @@ public class Banktest {
     public void testGeldEinzahlen() {
         Kunde k1 = new Kunde("Peter", "Lustig", "Am Löwenzahn 3", LocalDate.of(1963, 4, 13));
         bank.giroKontoErstellen(k1);
-        bank.geldEinzahlen(1000000001L, 100);
-        assertEquals(bank.getKontostand(1000000001L), 100);
+        bank.geldEinzahlen(1000000000L, 100);
+        assertEquals(bank.getKontostand(1000000000L), 100);
     }
 
 
     @Test
     public void testGeldAbhebenUngesperrt() throws GesperrtException {
         bank.giroKontoErstellen(k1);
-        bank.geldEinzahlen(1000000001L, 101);
-        bank.geldAbheben(1000000001L, 100);
-        assertEquals(bank.getKontostand(1000000001L), 1);
+        bank.geldEinzahlen(1000000000L, 101);
+        bank.geldAbheben(1000000000L, 100);
+        assertEquals(bank.getKontostand(1000000000L), 1);
     }
 
     @Test
     public void testGeldAbhebenZuviel() throws GesperrtException {
         bank.giroKontoErstellen(k1);
-        bank.geldEinzahlen(1000000001L, 101);
-        assertFalse(bank.geldAbheben(1000000001L, 10000));
+        bank.geldEinzahlen(1000000000L, 101);
+        assertFalse(bank.geldAbheben(1000000000L, 10000));
     }
 
     @Test
     public void testGeldAbhebenNegativ() throws GesperrtException {
         bank.giroKontoErstellen(k1);
-        assertFalse(bank.geldAbheben(1000000001L, -10000));
+        assertFalse(bank.geldAbheben(1000000000L, -10000));
     }
 
     @Test
@@ -87,7 +87,7 @@ public class Banktest {
     @Test
     public void testKontoLoeschenExistent() {
         bank.giroKontoErstellen(k1);
-        assertTrue(bank.kontoLoeschen(1000000001L));
+        assertTrue(bank.kontoLoeschen(1000000000L));
     }
 
     @Test
@@ -104,6 +104,20 @@ public class Banktest {
         bank.giroKontoErstellen(k2);
         bank.geldAbheben(1000000001L,50);
         bank.pleitegeierSperren();
+    }
+
+    @Test
+    public void testCloneMethode() throws CloneNotSupportedException {
+        Bank b1 = new Bank(10050000);
+        b1.giroKontoErstellen(k1);
+        Bank b2 = b1.clone();
+        b1.geldEinzahlen(1000000000L,500);
+        b1.geldEinzahlen(1000000000L,1000);
+        System.out.println(b1.getAlleKonten());
+        System.out.println(b2.getAlleKonten());
+        assertNotEquals(b1.getKontostand(1000000000L),b2.getKontostand(1000000000L));
+
+
     }
 
 }

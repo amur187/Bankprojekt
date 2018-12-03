@@ -1,18 +1,22 @@
+import com.sun.tools.internal.ws.wsdl.document.Output;
+
+import java.io.*;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 /**
  * Eine Bank verwaltet Kunden.
  *
  * @author dennis
  */
-public class Bank {
+public class Bank implements Cloneable {
     private final long STARTNUMMER = 1000000000L;
-
     private long bankleitzahl;
     private long hoechsteNummer = STARTNUMMER;
     private HashMap<Long, Konto> bankKonten = new HashMap();
+
 
     /**
      * Kontruktor
@@ -183,7 +187,7 @@ public class Bank {
     }
 
     /**
-     * Sperrt alle Konten die im minus sind
+     * Sperrt alle Konten die im Minus sind
      */
     public void pleitegeierSperren() {
         bankKonten.forEach((n, k) -> {
@@ -229,12 +233,30 @@ public class Bank {
         /**
          * Leider fällt uns hier nichts anderes ein als die Gesamten Kontonummern durchzuiterieren.
          */
-        List<Long> rueckgabe = new ArrayList<>();
-        for(long i = STARTNUMMER; i < hoechsteNummer;i++) {
-            if(bankKonten.get(i) == null) {
-                rueckgabe.add(i);
-            }
-        }
+        List<Long> rueckgabe = LongStream.range(STARTNUMMER,hoechsteNummer).filter(nummer -> getAlleKontonummern().contains(nummer)).boxed().collect(Collectors.toList());
+
         return rueckgabe;
+    }
+
+    public Bank clone() throws CloneNotSupportedException{
+        Bank b = new Bank(this.bankleitzahl);
+        try {
+
+            for(long key:bankKonten.keySet()){
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ObjectOutputStream oos = new ObjectOutputStream(baos);
+                oos.writeObject(bankKonten.get(key));
+
+                ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+                ObjectInputStream ois = new ObjectInputStream(bais);
+                b.bankKonten.put(key,(Konto) ois.readObject());
+            }
+        } catch(IOException e) {
+            e.printStackTrace();
+        } catch(ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return b;
     }
 }

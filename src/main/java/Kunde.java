@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -11,7 +12,7 @@ import java.util.Locale;
  * @author Dorothea Hubrich
  * @version 1.0
  */
-public class Kunde implements Comparable<Kunde>{
+public class Kunde implements Comparable<Kunde>, Serializable {
 	/**
 	 * Ein Musterkunde
 	 */
