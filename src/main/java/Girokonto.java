@@ -145,12 +145,7 @@ public class Girokonto extends Konto {
 	}
 
 	@Override
-	public boolean abheben(double betrag) throws GesperrtException {
-		if (betrag < 0) {
-			throw new IllegalArgumentException();
-		}
-		if (this.isGesperrt())
-			throw new GesperrtException(this.getKontonummer());
+	protected boolean betragAbheben(double betrag){
 		if (getKontostand() - betrag >= -dispo) {
 			setKontostand(getKontostand() - betrag);
 			return true;

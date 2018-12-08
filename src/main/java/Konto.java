@@ -189,8 +189,17 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 	 *             wenn der betrag negativ ist
 	 * @return true, wenn die Abhebung geklappt hat, false, wenn sie abgelehnt wurde
 	 */
-	public abstract boolean abheben(double betrag) throws GesperrtException;
+	public final boolean abheben(double betrag) throws GesperrtException,IllegalArgumentException {
+		if (betrag < 0) {
+			throw new IllegalArgumentException();
+		}
+		if (this.isGesperrt()) {
+			throw new GesperrtException(this.getKontonummer());
+		}
+		return betragAbheben(betrag);
+	}
 
+	abstract boolean betragAbheben(double betrag);
 	/**
 	 * Hebt Geld vom Konto ab welches in der gleichen Waehrung gefuehrt wird oder
 	 * hebt eine andere Waherung vom EUR Konto ab oder hebt EUR von Konto mit
@@ -341,6 +350,7 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 
 	@Override
 	public int compareTo(Konto other) {
+
 		if (other.getKontostand() > this.getKontostand())
 			return -1;
 		if (other.getKontostand() < this.getKontostand())

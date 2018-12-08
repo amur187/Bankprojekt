@@ -44,15 +44,7 @@ public class Sparbuch extends Konto {
 	}
 
 	@Override
-	public boolean abheben (double betrag) throws GesperrtException{
-		if (betrag < 0 ) {
-			throw new IllegalArgumentException();
-		}
-		if(this.isGesperrt())
-		{
-			GesperrtException e = new GesperrtException(this.getKontonummer());
-			throw e;
-		}
+	public boolean betragAbheben (double betrag){
 		LocalDate heute = LocalDate.now();
 		if(heute.getMonth() != zeitpunkt.getMonth() || heute.getYear() != zeitpunkt.getYear())
 		{
