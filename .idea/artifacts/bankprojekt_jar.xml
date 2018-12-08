@@ -2,8 +2,6 @@
   <artifact type="jar" name="bankprojekt.jar">
     <output-path>$PROJECT_DIR$/out/artifacts/bankprojekt_jar</output-path>
     <root id="archive" name="bankprojekt.jar">
-      <element id="module-output" name="bankprojekt" />
-      <element id="module-test-output" name="bankprojekt" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-launcher/1.0.3/junit-platform-launcher-1.0.3.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-api/5.0.3/junit-jupiter-api-5.0.3.jar" path-in-jar="/" />

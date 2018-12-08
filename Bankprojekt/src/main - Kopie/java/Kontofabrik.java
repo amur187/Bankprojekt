@@ -1,5 +1,5 @@
-public class KontoFabrik {
-    public KontoFabrik() {
+public class Kontofabrik {
+    public Kontofabrik() {
     }
 
     public static Konto getKonto(KontoAbstrakteFabrik fabrik) {

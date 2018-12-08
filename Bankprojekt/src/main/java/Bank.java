@@ -1,4 +1,3 @@
-import com.sun.tools.internal.ws.wsdl.document.Output;
 
 import java.io.*;
 import java.util.*;
@@ -259,4 +258,13 @@ public class Bank implements Cloneable {
         }
         return b;
     }
+
+    long kontoErstellen(Kontofabrik kontofabrik, Kunde kunde, String typ){
+        switch (typ){
+            case "Girokonto":   return kontofabrik.getKonto(new GirokontoFabrik(kunde,hoechsteNummer++,0.0)).getKontonummer();
+            case "Sparbuch":    return kontofabrik.getKonto(new SparbuchFabrik(kunde,hoechsteNummer++)).getKontonummer();
+            default: throw new InputMismatchException("BLA");
+        }
+    }
+
 }

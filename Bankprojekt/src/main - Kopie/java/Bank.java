@@ -259,4 +259,9 @@ public class Bank implements Cloneable {
         }
         return b;
     }
+
+    long kontoErstellen(Kontofabrik fabrik, Kunde k, long Kontonummer){
+           return fabrik.get
+    }
+
 }
