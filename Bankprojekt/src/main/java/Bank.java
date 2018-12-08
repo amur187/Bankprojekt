@@ -259,11 +259,19 @@ public class Bank implements Cloneable {
         return b;
     }
 
-    long kontoErstellen(Kontofabrik kontofabrik, Kunde kunde, String typ){
+    /**
+     * Erstellt ein Konto
+     * @param kontofabrik
+     * @param kunde
+     * @param typ
+     * @return
+     */
+
+    long kontoErstellen(Kontofabrik kontofabrik, Kunde kunde, Kontoart typ){
         switch (typ){
-            case "Girokonto":   return kontofabrik.getKonto(new GirokontoFabrik(kunde,hoechsteNummer++,0.0)).getKontonummer();
-            case "Sparbuch":    return kontofabrik.getKonto(new SparbuchFabrik(kunde,hoechsteNummer++)).getKontonummer();
-            default: throw new InputMismatchException("BLA");
+            case GIROKONTO:   return kontofabrik.getKonto(new GirokontoFabrik(kunde,hoechsteNummer++,0.0)).getKontonummer();
+            case SPARBUCH:    return kontofabrik.getKonto(new SparbuchFabrik(kunde,hoechsteNummer++)).getKontonummer();
+            default: throw new InputMismatchException("Falscher Wert");
         }
     }
 
