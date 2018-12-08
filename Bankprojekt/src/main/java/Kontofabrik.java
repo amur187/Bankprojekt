@@ -1,20 +1,8 @@
-
-interface AbstractFactory{
-
-    public Sparbuch createSparbuch();
-    public Girokonto createGirokonto();
-
-}
-
-class Kontofabrik implements AbstractFactory{
-
-    @Override
-    public Sparbuch createSparbuch() {
-        return new Sparbuch();
+public class KontoFabrik {
+    public KontoFabrik() {
     }
 
-    @Override
-    public Girokonto createGirokonto(){
-        return new Girokonto();
+    public static Konto getKonto(KontoAbstrakteFabrik fabrik) {
+        return fabrik.kontoErstellen();
     }
 }
