@@ -1,7 +1,6 @@
 
 import java.io.*;
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
@@ -15,6 +14,7 @@ public class Bank implements Cloneable {
     private long bankleitzahl;
     private long hoechsteNummer = STARTNUMMER;
     private HashMap<Long, Konto> bankKonten = new HashMap();
+    private LinkedList<Bankueberwacher> ueberwachungsListe = new LinkedList();
 
 
     /**
@@ -47,6 +47,7 @@ public class Bank implements Cloneable {
         Girokonto g = new Girokonto(inhaber, kontonummer , 0);
         bankKonten.put(kontonummer, g);
         hoechsteNummer++;
+        neuesKonto(g);
         return kontonummer;
     }
 
@@ -61,6 +62,7 @@ public class Bank implements Cloneable {
         Sparbuch s = new Sparbuch(inhaber, kontonummer);
         bankKonten.put(kontonummer, s);
         hoechsteNummer++;
+        neuesKonto(s);
         return kontonummer;
     }
 
@@ -136,6 +138,7 @@ public class Bank implements Cloneable {
      */
     public boolean kontoLoeschen(Long nummer) {
         if(bankKonten.get(nummer) != null) {
+            neuesKonto(bankKonten.get(nummer));
             bankKonten.remove(nummer);
             return true;
         } else {
@@ -269,10 +272,47 @@ public class Bank implements Cloneable {
 
     long kontoErstellen(Kontofabrik kontofabrik, Kunde kunde, Kontoart typ){
         switch (typ){
-            case GIROKONTO:   return kontofabrik.getKonto(new GirokontoFabrik(kunde,hoechsteNummer++,0.0)).getKontonummer();
-            case SPARBUCH:    return kontofabrik.getKonto(new SparbuchFabrik(kunde,hoechsteNummer++)).getKontonummer();
+            case GIROKONTO:
+                Konto k = kontofabrik.getKonto(new GirokontoFabrik(kunde,hoechsteNummer++,0.0));
+                neuesKonto(k);
+                return k.getKontonummer();
+            case SPARBUCH:
+                Konto kk = kontofabrik.getKonto(new SparbuchFabrik(kunde,hoechsteNummer++));
+                neuesKonto(kk);
+                return kk.getKontonummer();
             default: throw new InputMismatchException("Falscher Wert");
         }
     }
+
+
+    public void anmelden(Bankueberwacher beobachter){
+        ueberwachungsListe.add(beobachter);
+    }
+    public void abmelden(Bankueberwacher beobachter){
+        ueberwachungsListe.remove(beobachter);
+    }
+    protected void neuesKonto(Konto k){
+        ueberwachungsListe.forEach(bankueberwacher -> bankueberwacher.benachrichtigung(k));
+    }
+
+
+    public boolean kontoIstExistent(long kontonr){
+        if(bankKonten.get(kontonr) != null){
+            return true;
+        } else return false;
+    }
+
+    public void kontoWaechterHinzufuegen(Kontowaechter kw, long kontonr){
+        if(kontoIstExistent(kontonr)){
+        bankKonten.get(kontonr).waechterAnmelden(kw);
+        }
+    }
+
+    public void kontoWaechterEntfernen(Kontowaechter kw, long kontonr){
+        bankKonten.get(kontonr).waechterAbmelden(kw);
+    }
+
+
+
 
 }

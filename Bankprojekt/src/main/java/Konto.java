@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.util.LinkedList;
 
 /**
  * stellt ein allgemeines Konto dar
@@ -23,6 +24,11 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 	 * die verwendete Waehrung
 	 */
 	protected Waehrung waehrung;
+
+	/*
+	Liste der Wächter
+	 */
+	protected LinkedList<Kontowaechter> kontowaechters = new LinkedList<>();
 
 	/**
 	 * setzt den aktuellen Kontostand
@@ -137,6 +143,7 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 			throw new IllegalArgumentException("Negativer Betrag");
 		}
 		setKontostand(getKontostand() + betrag);
+		kontowaechters.forEach(kontowaechter -> kontowaechter.benachrichtigung(this));
 	}
 
 	/**
@@ -196,6 +203,7 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 		if (this.isGesperrt()) {
 			throw new GesperrtException(this.getKontonummer());
 		}
+		kontowaechters.forEach(kontowaechter -> kontowaechter.benachrichtigung(this));
 		return betragAbheben(betrag);
 	}
 
@@ -223,6 +231,7 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 		if (getAktuelleWaehrung() == w) {
 			if (getKontostand() - betrag >= 1) {
 				setKontostand(getKontostand() - betrag);
+				kontowaechters.forEach(kontowaechter -> kontowaechter.benachrichtigung(this));
 				return true;
 			} else {
 				return false;
@@ -230,6 +239,7 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 		} else if (getAktuelleWaehrung() == Waehrung.EUR && w != Waehrung.EUR) {
 			if(getKontostand() - w.waehrungInEuroUmrechnen(betrag) >= 1) {
 				setKontostand(getKontostand() - w.waehrungInEuroUmrechnen(betrag));
+				kontowaechters.forEach(kontowaechter -> kontowaechter.benachrichtigung(this));
 				return true;
 			} else {
 				return false;
@@ -237,6 +247,7 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 		} else if (getAktuelleWaehrung() != Waehrung.EUR && w == Waehrung.EUR) {
 			if(getKontostand() - getAktuelleWaehrung().euroInWaehrungUmrechnen(betrag) >= 1) {
 				setKontostand(getKontostand() - getAktuelleWaehrung().euroInWaehrungUmrechnen(betrag));
+				kontowaechters.forEach(kontowaechter -> kontowaechter.benachrichtigung(this));
 				return true;
 			} else {
 				return false; 
@@ -246,6 +257,7 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 				double tempKontoInEuro = getAktuelleWaehrung().waehrungInEuroUmrechnen(getKontostand());
 				double tempBetragInEuro =  w.waehrungInEuroUmrechnen(betrag);
 				setKontostand(getAktuelleWaehrung().euroInWaehrungUmrechnen((tempKontoInEuro-tempBetragInEuro)));
+				kontowaechters.forEach(kontowaechter -> kontowaechter.benachrichtigung(this));
 				return true;
 					} else {
 						return false;
@@ -356,5 +368,21 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 		if (other.getKontostand() < this.getKontostand())
 			return 1;
 		return 0;
+	}
+
+	/**
+	 * Fügt einen Kontowächter hinzu.
+	 * @param k
+	 */
+	public void waechterAnmelden(Kontowaechter k){
+		kontowaechters.add(k);
+	}
+
+	/**
+	 * Meldet einen Wächter vom Konto ab.
+	 * @param k
+	 */
+	public void waechterAbmelden(Kontowaechter k){
+		kontowaechters.remove(k);
 	}
 }
