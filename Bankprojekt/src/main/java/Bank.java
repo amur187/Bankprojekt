@@ -7,7 +7,7 @@ import java.util.stream.LongStream;
 /**
  * Eine Bank verwaltet Kunden.
  *
- * @author dennis
+ * @author dennis,alihan
  */
 public class Bank implements Cloneable {
     private final long STARTNUMMER = 1000000000L;
@@ -284,35 +284,58 @@ public class Bank implements Cloneable {
         }
     }
 
-
+    /**
+     * Meldet an einer Bank einen Wächter an
+     * @param beobachter
+     */
     public void anmelden(Bankueberwacher beobachter){
         ueberwachungsListe.add(beobachter);
     }
+
+    /**
+     * Meldet einen Wächter an einer Bank ab.
+     * @param beobachter
+     */
     public void abmelden(Bankueberwacher beobachter){
         ueberwachungsListe.remove(beobachter);
     }
+
+    /**
+     * Benachrichtigt wenn ein neues Konto erstellt wurde.
+     * @param k
+     */
     protected void neuesKonto(Konto k){
         ueberwachungsListe.forEach(bankueberwacher -> bankueberwacher.benachrichtigung(k));
     }
 
-
+    /**
+     * Prüft ob es Konto existiert
+     * @param kontonr
+     * @return
+     */
     public boolean kontoIstExistent(long kontonr){
         if(bankKonten.get(kontonr) != null){
             return true;
         } else return false;
     }
 
+    /**
+     * Fügt einem Konto einen Wächter hinzu
+     * @param kw
+     * @param kontonr
+     */
     public void kontoWaechterHinzufuegen(Kontowaechter kw, long kontonr){
         if(kontoIstExistent(kontonr)){
         bankKonten.get(kontonr).waechterAnmelden(kw);
         }
     }
 
+    /**
+     * Meldet einen Wächter vom Konto ab.
+     * @param kw
+     * @param kontonr
+     */
     public void kontoWaechterEntfernen(Kontowaechter kw, long kontonr){
         bankKonten.get(kontonr).waechterAbmelden(kw);
     }
-
-
-
-
 }

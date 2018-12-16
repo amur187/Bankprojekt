@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="bankprojekt">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/Bankprojekt/src/main - Kopie/java" />
+      <root url="file://$PROJECT_DIR$/Bankprojekt/src/main/java" />
+      <root url="file://$PROJECT_DIR$/Bankprojekt/src/test/java" />
+      <root url="file://$PROJECT_DIR$/Chatprogramm/src" />
+      <root url="file://$PROJECT_DIR$/Nullstellensuche/src" />
+      <root url="file://$PROJECT_DIR$/StringFormat/src" />
+      <root url="file://$PROJECT_DIR$/Uebung6 - Ballspiel/src" />
+    </SOURCES>
+  </library>
+</component>
