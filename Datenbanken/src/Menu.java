@@ -19,6 +19,7 @@ public class Menu {
                     datensatzLoeschen();
                     break;
                 case 4:
+                    zeileAuswaehlen();
                     break;
                 case 0:
                     System.out.println("Goodbye");
@@ -71,14 +72,21 @@ private int intEinlesen(String typ){
         Scanner sc = new Scanner(System.in);
         String rueckgabe = "";
         try {
+            if(typ.startsWith("pnl")){
+                rueckgabe = sc.next();
+            } else {
             System.out.print(typ + " eingeben: ");
-            rueckgabe = sc.next();
+            rueckgabe = sc.next();}
         } catch(InputMismatchException e){
         }
         return rueckgabe;
     }
 
-    private void showMenu(){
+    private void zeileAuswaehlen(){
+              Schnittstelle.zeileAusgeben();
+    }
+
+    public void showMenu(){
         System.out.println("Datenbankbeleg - Menu");
         System.out.println("----------------------");
         System.out.println("1) Ausgabe der Tabelle");
@@ -86,6 +94,10 @@ private int intEinlesen(String typ){
         System.out.println("3) Datensatz loeschen");
         System.out.println("4) Einzelne Datensaetze anzeigen");
         System.out.println("0) Beenden");
+    }
+
+    public void showOptions(){
+        System.out.println("(p)revious set - (n)ext set - (l)eave this mode");
     }
 
 
