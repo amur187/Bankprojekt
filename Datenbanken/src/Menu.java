@@ -16,6 +16,7 @@ public class Menu {
                     datensatzHinzufuegen();
                     break;
                 case 3:
+                    datensatzLoeschen();
                     break;
                 case 4:
                     break;
@@ -39,14 +40,20 @@ public class Menu {
 
         return zahl;
     }
+
+    private void datensatzLoeschen(){
+        int mannschaftID = intEinlesen("MannschaftsID zum löschen");
+        Schnittstelle.datensatzLoeschen(mannschaftID);
+    }
 private void datensatzHinzufuegen(){
         String name = stringEinlesen("Name");
         String sitz = stringEinlesen("Sitz");
         String farben = stringEinlesen("Farben");
          int mitglieder = intEinlesen("Mitgliederzahl");
          int heimstadion = intEinlesen("StadionID");
+         int mannschaftID = intEinlesen("MannschaftsID");
 
-    Schnittstelle.datensatzHinzufuegen(name,sitz,farben,mitglieder,heimstadion);
+    Schnittstelle.datensatzHinzufuegen(mannschaftID,name,sitz,farben,mitglieder,heimstadion);
 
 }
 private int intEinlesen(String typ){

@@ -16,22 +16,29 @@ import java.sql.*;
          return DriverManager.getConnection(DB_URL,DB_USER,DB_PASS);
      }
 
-     static void datensatzHinzufuegen(String name, String sitz, String farben, int mitglieder, int heimstadion){
+     static void datensatzLoeschen(int mannschaftID){
          try {
              Connection conn = verbinden();
              Statement stmt = conn.createStatement();
-           String sql = "INSERT INTO mannschaft(" + kategorie2 + "," + kategorie3 + ","
+             String sql = "DELETE FROM mannschaft WHERE mannschaftID =" + mannschaftID;
 
-                     + kategorie4  + ","+ kategorie5 + ")" + " VALUES('" +
-                     name + "','" + sitz  + "','" + farben + "'," + mitglieder  +
-                   ")";
+             stmt.execute(sql);
+         } catch(SQLException e){
+             e.printStackTrace();
+         }
+     }
 
+     static void datensatzHinzufuegen(int mannschaftID, String name, String sitz, String farben, int mitglieder, int heimstadion){
+         try {
+             Connection conn = verbinden();
+             Statement stmt = conn.createStatement();
+           String sql = "INSERT INTO mannschaft(" + kategorie1  + "," + kategorie2 + "," + kategorie3 + ","
+                     + kategorie4  + ","+ kategorie5 + "," + kategorie6 + ")" + " VALUES (" + mannschaftID + ",'" +
+                     name + "','" + sitz  + "','" + farben + "','" + mitglieder  + "','" + heimstadion
+                   + "')";
 
-
-             System.out.println(sql);
-             ResultSet rs = stmt.executeQuery(sql);
-
-
+           //  System.out.println(sql);
+             stmt.execute(sql);
          } catch(SQLException e) {
              e.printStackTrace();
          }
@@ -46,8 +53,8 @@ import java.sql.*;
             sql = "SELECT * FROM Mannschaft";
             ResultSet rs = stmt.executeQuery(sql);
 
-            System.out.printf("%-12s | %-20s | %-12s | %-12s | %s | %s \n", kategorie1, kategorie2 , kategorie3,kategorie4,kategorie5,kategorie6);
-            System.out.println("---------------------------------------------------------------------------------------------");
+            System.out.printf("%-15s | %-60s | %-30s | %-20s | %-15s | %-15s \n", kategorie1, kategorie2 , kategorie3,kategorie4,kategorie5,kategorie6);
+            System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
             while(rs.next()){
                 int mannschaftID = rs.getInt(kategorie1);
@@ -56,8 +63,7 @@ import java.sql.*;
                 String farbe = rs.getString(kategorie4);
                 int mitglieder = rs.getInt(kategorie5);
                 int heimstadion = rs.getInt(kategorie6);
-
-                System.out.printf("%-12d | %-20s | %-12s | %-12s | %10d | %10s  \n", mannschaftID, name, sitz,farbe,mitglieder,heimstadion);
+                System.out.printf("%-15d | %-60s | %-30s | %-20s | %-15d | %-15s  \n", mannschaftID, name, sitz,farbe,mitglieder,heimstadion);
             }
             rs.close();
             stmt.close();
