@@ -141,7 +141,7 @@ public class DigitalUhr extends JFrame
 //	 * Digitaluhr anzeigen
 //	 * @param args
 //	 */
-//	public static void main(String[] args) {
+//	public static void Main(String[] args) {
 //
 //		new DigitalUhr();
 //	}

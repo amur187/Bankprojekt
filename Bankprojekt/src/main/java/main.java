@@ -1,23 +1,22 @@
+import javafx.application.Application;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public class main {
-
+public class Main  extends Application {
     public static void main(String[] args) {
-       Konto k1 = new Girokonto();
-       Konto k2 = new Sparbuch();
-       Kontowaechter k = new Kontowaechter();
-       k1.waechterAnmelden(k);
-       k1.einzahlen(200);
-       k1.einzahlen(200);
-        try {
-            k1.abheben(300);
-        } catch(GesperrtException e) {
-            e.printStackTrace();
-        }
+        launch(args);
+    }
 
-        KontoController kc = new KontoController();
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        KontoController kontoController = new KontoController();
+        KontoOberflaeche kontoView = new KontoOberflaeche(kontoController);
 
-      //  KontoOberflaeche ko = new KontoOberflaeche(kc);
+        Parent root = kontoView;
+        Scene scene = new Scene(root, 300, 275);
+        primaryStage.setScene(scene);
+        primaryStage.show();
 
     }
 }

@@ -18,6 +18,23 @@ public class Girokonto extends Konto {
 		this.dispo = 500;
 	}
 
+	public Girokonto(Kunde inhaber, long nummer, double dispo,boolean gesperrt) {
+		super(inhaber, nummer);
+		if (dispo < 0)
+			throw new IllegalArgumentException("Der Dispo darf nicht negativ sein!");
+		this.dispo = dispo;
+		this.setGesperrt(gesperrt);
+	}
+
+	public Girokonto(Kunde inhaber, long nummer, double dispo,boolean gesperrt,double kontostand) {
+		super(inhaber, nummer);
+		if (dispo < 0)
+			throw new IllegalArgumentException("Der Dispo darf nicht negativ sein!");
+		this.dispo = dispo;
+		this.setGesperrt(gesperrt);
+		this.setKontostand(kontostand);
+	}
+
 	/**
 	 * erzeugt ein Girokonto mit den angegebenen Werten
 	 * 
@@ -146,6 +163,9 @@ public class Girokonto extends Konto {
 
 	@Override
 	protected boolean betragAbheben(double betrag){
+		if (betrag < 0) {
+			throw new IllegalArgumentException();
+		}
 		if (getKontostand() - betrag >= -dispo) {
 			setKontostand(getKontostand() - betrag);
 			return true;

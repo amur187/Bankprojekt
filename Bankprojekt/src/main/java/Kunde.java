@@ -44,6 +44,11 @@ public class Kunde implements Comparable<Kunde>, Serializable {
 	 * Der Nachname
 	 */
 	private String nachname;
+
+	public StringProperty adresseProperty() {
+		return adresse;
+	}
+
 	/**
 	 * Die Adresse
 	 */
