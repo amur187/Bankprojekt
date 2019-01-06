@@ -1,3 +1,5 @@
+import javafx.scene.Scene;
+
 public class main {
 
     public static void main(String[] args) {
@@ -12,6 +14,10 @@ public class main {
         } catch(GesperrtException e) {
             e.printStackTrace();
         }
+
+        KontoController kc = new KontoController();
+
+      //  KontoOberflaeche ko = new KontoOberflaeche(kc);
 
     }
 }

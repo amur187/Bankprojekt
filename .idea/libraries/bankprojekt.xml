@@ -2,6 +2,7 @@
   <library name="bankprojekt">
     <CLASSES>
       <root url="file://$PROJECT_DIR$" />
+      <root url="jar://C:/postgresql-42.2.5.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

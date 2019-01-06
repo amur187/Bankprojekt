@@ -3,7 +3,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Spinner;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -64,7 +63,7 @@ public class KontoOberflaeche extends BorderPane {
     /**
      * erstellt die Oberfl�che
      */
-    public KontoOberflaeche()
+    public KontoOberflaeche(KontoController kc)
     {
         ueberschrift = new Text("Ein Konto ver�ndern");
         ueberschrift.setFont(new Font("Sans Serif", 25));
