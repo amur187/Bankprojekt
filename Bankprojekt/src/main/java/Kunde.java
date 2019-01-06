@@ -1,6 +1,11 @@
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
 import java.util.Locale;
 
@@ -17,7 +22,7 @@ public class Kunde implements Comparable<Kunde>, Serializable {
 	 * Ein Musterkunde
 	 */
 	public static final Kunde MUSTERMANN = new Kunde("Max", "Mustermann", "zuhause", LocalDate.now());
-	
+
 	/**
 	 * englische oder deutsche Anrede, je nach den Systemeinstellungen
 	 */
@@ -42,7 +47,7 @@ public class Kunde implements Comparable<Kunde>, Serializable {
 	/**
 	 * Die Adresse
 	 */
-	private String adresse;
+	private StringProperty adresse = new SimpleStringProperty(this,"");
 	/**
 	 * Geburtstag
 	 */
@@ -69,7 +74,7 @@ public class Kunde implements Comparable<Kunde>, Serializable {
 			throw new IllegalArgumentException("null als Parameter nich erlaubt");
 		this.vorname = vorname;
 		this.nachname = nachname;
-		this.adresse = adresse;
+		this.setAdresse(adresse);
 		this.geburtstag = gebdat;
 	}
 
@@ -116,7 +121,7 @@ public class Kunde implements Comparable<Kunde>, Serializable {
 	 * @return
 	 */
 	public String getAdresse() {
-		return adresse;
+		return adresse.get();
 	}
 
 	/**
@@ -128,7 +133,7 @@ public class Kunde implements Comparable<Kunde>, Serializable {
 	public void setAdresse(String adresse) {
 		if(adresse == null)
 			throw new IllegalArgumentException("Adresse darf nicht null sein");
-		this.adresse = adresse;
+		this.adresse.set(adresse);
 	}
 
 	/**
